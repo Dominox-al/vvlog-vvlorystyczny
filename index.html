@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>vvlog vvlorystyczny</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff8f0;
+            color: #333;
+            scroll-behavior: smooth;
+            position: relative;
+            z-index: 1;
+        }
+        /* Wideo tło */
+        #bg-video {
+            position: fixed;
+            right: 0; bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+        header {
+            background-color: rgba(247, 198, 184, 0.85);
+            padding: 20px;
+            text-align: center;
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #6b3e2c;
+            letter-spacing: 2px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            backdrop-filter: saturate(180%) blur(10px);
+        }
+        nav {
+            background-color: rgba(249, 213, 193, 0.85);
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 75px;
+            z-index: 9;
+            backdrop-filter: saturate(180%) blur(10px);
+        }
+        nav a {
+            text-decoration: none;
+            color: #6b3e2c;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #b05e3c;
+        }
+        main {
+            max-width: 900px;
+            margin: 30px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(176,94,60,0.4);
+        }
+        section.kwiat {
+            margin-bottom: 50px;
+            border-bottom: 1px solid #f0dcd2;
+            padding-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        section.kwiat.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        h2 {
+            color: #b05e3c;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+        img.main-img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(176, 94, 60, 0.3);
+            display: block;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        img.main-img:hover {
+            transform: scale(1.03);
+        }
+        p {
+            font-size: 1.15em;
+            line-height: 1.6;
+            color: #4b3a2a;
+        }
+        .gallery {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            margin-top: 15px;
+            padding-bottom: 10px;
+        }
+        .gallery img {
+            border-radius: 8px;
+            height: 120px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 6px rgba(176, 94, 60, 0.3);
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        section#about {
+            background-color: #f9d5c1;
+            padding: 30px 20px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 12px rgba(176, 94, 60, 0.15);
+            color: #6b3e2c;
+        }
+        section#about h2 {
+            margin-top: 0;
+        }
+        form {
+            background-color: #f7c6b8;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(176, 94, 60, 0.3);
+            max-width: 600px;
+            margin: 0 auto 50px;
+            color: #6b3e2c;
+        }
+        form h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.8em;
+        }
+        form label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: 600;
+        }
+        form input[type="text"],
+        form input[type="email"],
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #b05e3c;
+            font-size: 1em;
+            resize: vertical;
+        }
+        form textarea {
+            min-height: 100px;
+        }
+        form button {
+            margin-top: 20px;
+            background-color: #b05e3c;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        form button:hover {
+            background-color: #6b3e2c;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f7c6b8;
+            color: #6b3e2c;
+            font-size: 0.9em;
+            margin-top: 40px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 1;
+        }
+        audio {
+            display: none;
+        }
+        /* Responsive */
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            nav a {
+                margin: 5px 0;
+            }
+            .gallery {
+                height: 130px;
+            }
+            .gallery img {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Wideo w tle -->
+    <video autoplay muted loop id="bg-video">
+        <source src="https://cdn.videvo.net/videvo_files/video/free/2014-08/small_watermarked/140703_V02_Sunset_01_preview.webm" type="video/webm">
+        <source src="https://cdn.videvo.net/videvo_files/video/free/2014-08/small_watermarked/140703_V02_Sunset_01_preview.mp4" type="video/mp4">
+        Twoja przeglądarka nie obsługuje elementu wideo.
+    </video>
+
+    <header>vvlog vvlorystyczny</header>
+    <nav>
+        <a href="#rozsa">Róża</a>
+        <a href="#slonecznik">Słonecznik</a>
+        <a href="#storczyk">Storczyk</a>
+        <a href="#about">O nas</a>
+        <a href="#kontakt">Kontakt</a>
+    </nav>
+
+    <main>
+        <section id="rozsa" class="kwiat">
+            <h2>Róża</h2>
+            <img class="main-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Rose_flower_in_Manali_India_01.jpg/640px-Rose_flower_in_Manali_India_01.jpg" alt="Róża" />
+            <p>Róża to symbol miłości i piękna, ceniona na całym świecie. Posiada wiele odmian i kolorów, które niosą różne znaczenia.</p>
+            <div class="gallery">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Rose_Red_Classic_01.jpg/320px-Rose_Red_Classic_01.jpg" alt="Róża czerwona" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Yellow_rose_flower.JPG/320px-Yellow_rose_flower.JPG" alt="Róża żółta" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/White_rose_flower_%28cropped%29.jpg/320px-White_rose_flower_%28cropped%29.jpg" alt="Róża biała" />
+            </div>
+        </section>
+
+        <section id="slonecznik" class="kwiat">
+            <h2>Słonecznik</h2>
+            <img class="main-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/640px-Sunflower_sky_backdrop.jpg" alt="Słonecznik" />
+            <p>Słonecznik jest rośliną jednoroczną, charakteryzującą się dużą, żółtą kwiatostanową główką, która podąża za słońcem.</p>
+            <div class="gallery">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Sunflower_close_up.jpg/320px-Sunflower_close_up.jpg" alt="Zbliżenie słonecznika" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Sunflower_field.jpg/320px-Sunflower_field.jpg" alt="Pole słoneczników" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Sunflower_plant.jpg/320px-Sunflower_plant.jpg" alt="Roślina słonecznika" />
+            </div>
+        </section>
+
+        <section id="storczyk" class="kwiat">
+            <h2>Storczyk</h2>
+            <img class="main-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Orchid_Brassia_Caudata.jpg/640px-Orchid_Brassia_Caudata.jpg" alt="Storczyk" />
+            <p>Storczyk to egzotyczna roślina ozdobna, znana z niezwykłych kształtów i barw kwiatów. Często uprawiana jako roślina doniczkowa.</p>
+            <div class="gallery">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Orchid_Cattleya.jpg/320px-Orchid_Cattleya.jpg" alt="Storczyk Cattleya" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Phalaenopsis_orchid_2.jpg/320px-Phalaenopsis_orchid_2.jpg" alt="Storczyk Phalaenopsis" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Orchid2.jpg/320px-Orchid2.jpg" alt="Storczyk" />
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>O nas</h2>
+            <p>Witamy na vvlogu vvlorystycznym! To miejsce, gdzie dzielimy się naszą pasją do kwiatów i florystyki. Znajdziesz tu ciekawe informacje, piękne zdjęcia i praktyczne porady dotyczące pielęgnacji roślin.</p>
+        </section>
+
+        <section id="kontakt">
+            <form id="contactForm">
+                <h2>Kontakt</h2>
+                <label for="name">Imię:</label>
+                <input type="text" id="name" name="name" required />
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+                <label for="message">Wiadomość:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Wyślij</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 vvlog vvlorystyczny | Wszystkie prawa zastrzeżone
+    </footer>
+
+    <!-- Muzyka w tle -->
+    <audio autoplay loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/29/audio_bbc3e3c5d1.mp3?filename=soft-meditation-5218.mp3" type="audio/mpeg">
+        Twoja przeglądarka nie obsługuje odtwarzania audio.
+    </audio>
+
+    <script>
+        // Animacja pojawiania się sekcji
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) - 100
+                && rect.bottom >= 0
+            );
+        }
+
+        function checkVisibility() {
+            const sections = document.querySelectorAll('section.kwiat');
+            sections.forEach(section => {
+                if (isInViewport(section)) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('load', checkVisibility);
+
+        // Obsługa prostego formularza kontaktowego (tylko pokazowa funkcjonalność)
+        document.getElementById('contactForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            alert('Dziękujemy za kontakt! Odpowiemy najszybciej jak to możliwe.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
